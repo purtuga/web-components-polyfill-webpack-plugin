@@ -1,0 +1,27 @@
+{
+  "name": "@purtuga/web-components-polyfill-webpack-plugin",
+  "version": "1.0.0",
+  "description": "A webpack plugin that will wrap your bundles with code that ensure polyfills are loaded first if the browser does not support web components",
+  "main": "web-components-polyfill-webpack-plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purtuga/web-components-polyfill-webpack-plugin.git"
+  },
+  "keywords": [
+    "webcomponents",
+    "ployfill",
+    "web components",
+    "custom elements",
+    "shadowDOM",
+    "shadyCSS"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/purtuga/web-components-polyfill-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/purtuga/web-components-polyfill-webpack-plugin#readme"
+}
