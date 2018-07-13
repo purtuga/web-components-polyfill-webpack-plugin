@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/purtuga/web-components-polyfill-webpack-plugin/issues"
   },
-  "homepage": "https://github.com/purtuga/web-components-polyfill-webpack-plugin#readme"
+  "homepage": "https://github.com/purtuga/web-components-polyfill-webpack-plugin#readme",
+  "devDependencies": {
+    "webpack": "^4.16.0",
+    "webpack-cli": "^3.0.8"
+  }
 }

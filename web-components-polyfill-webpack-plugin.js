@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const ConcatSource = require("webpack-sources").ConcatSource;
 const PLUGIN_NAME = "WebComponentsPolyfillWebpackPlugin";
-const [HEADER, FOOTER] = getWrapperTemplate().split("____SPLIT____");
+const [HEADER, FOOTER] = getWrapperTemplate();
 
 /**
  * Add ESM `export` statements to the bottom of a webpack chunk
