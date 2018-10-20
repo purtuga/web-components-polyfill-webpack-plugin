@@ -19,7 +19,7 @@
      *
      * -    `window.WC_POLYFILL`: url to Web Components polyfill
      * -    `window.ES_POLYFILL`: the url to the ES6 core polyfill library
-     * -    `window.SKIP_ES_POLYFILL`: A boolean indicating if polyfilling
+     * -    `window.SKIP_ES_POLYFILL`: A boolean indicating if polyfiling
      *      the browser to be ES6 compliant should be skipped.
      *
      * In addition, this loader will add the following global

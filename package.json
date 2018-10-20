@@ -1,6 +1,6 @@
 {
   "name": "@purtuga/web-components-polyfill-webpack-plugin",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A webpack plugin that will wrap your bundles with code that ensure polyfills are loaded first if the browser does not support web components",
   "main": "web-components-polyfill-webpack-plugin.js",
   "scripts": {
