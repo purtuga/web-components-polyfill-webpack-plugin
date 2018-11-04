@@ -32,15 +32,17 @@ module.exports = {
 The following options are supported
 
 ```javascript
-new WebComponentsPolyfill(
-    esPolyfill,
-    wcPolfyill,
-    stringify
-)
+new WebComponentsPolyfill({
+    esPolyfill: "",
+    wcPolfyill: "",
+    generatorPolyfill: "",
+    stringify: true
+})
 ```
 
 -   `esPolyfill` : The custom URL to be used for loading the ES Polyfill
 -   `wcPolyfill` : The custom URL to be used for loading the WebComponents polyfill
+-   `generatorPolyfill` : The custom URL to be used for loading the Generators polyfill.
 -   `stringify`  : If set to `true` (default) then the values provide via `esPolyfill` and `wcPolyfill` will be run through `JSON.stringify()`. 
 
 ## Global Overrides
@@ -67,20 +69,22 @@ window.WC_ENV.then(function(){
 ### Use Custom URLs
 
 ```javascript
-new WebComponentsPolyfill(
-    "path/to/intranet/es6/polyfill.js",
-    "path/to/intranet/wc/polyfill.js"
-)
+new WebComponentsPolyfill({
+    esPolyfill: "path/to/intranet/es6/polyfill.js",
+    wcPolyfill: "path/to/intranet/wc/polyfill.js",
+    generatorPolyfill: "path/to/intranet/generator/polyfill.js"
+})
 ```
 
 ### Use Browser global variables for custom URLs
 
 ```javascript
-new WebComponentsPolyfill(
-    "window.ES_INTRANET_POLYFILL_URL",
-    "window.WC_INTRANET_POLYFILL_URL",
+new WebComponentsPolyfill({
+    esPolyfill: "window.ES_INTRANET_POLYFILL_URL",
+    wcPolyfill: "window.WC_INTRANET_POLYFILL_URL",
+    generatorPolyfill: "window.GENERATOR_POLYFILL_URL",
     false //!! important
-)
+})
 ```
 
 

@@ -2,6 +2,7 @@
     WINDOW,
     DOCUMENT,
     ES6_POLYFILL,
+    GE_POLYFILL,
     WC_POLYFILL,
     init
 ) {
@@ -19,6 +20,7 @@
      *
      * -    `window.WC_POLYFILL`: url to Web Components polyfill
      * -    `window.ES_POLYFILL`: the url to the ES6 core polyfill library
+     * -    `window.GE_POLYFILL`: the url to the Generator polyfill library
      * -    `window.SKIP_ES_POLYFILL`: A boolean indicating if polyfiling
      *      the browser to be ES6 compliant should be skipped.
      *
@@ -60,7 +62,7 @@
                 return callbacks;
             };
             return callbacks;
-        }
+        };
 
         var loadScript = function loadScript(url, callback) {
             var script = DOCUMENT.createElement("script");
@@ -82,19 +84,35 @@
 
             script.src = url;
             DOCUMENT.getElementsByTagName("head")[0].appendChild(script);
-        }
+        };
 
         var WC_SETUP_CALLBACKS = WINDOW[WC_SETUP] = getCallbackQueue();
         WC_SETUP_CALLBACKS.then(init);
 
         //----------------------------------------------------- Load Polyfills -------------
         var WEB_COMPONENTS_POLYFILL = WINDOW.WC_POLYFILL || WC_POLYFILL;
+        var pending = 0;
         var execWcSetupCallbacks = function () {
-            WC_SETUP_CALLBACKS.isDone = true;
-            WC_SETUP_CALLBACKS.exec();
+            --pending;
+            if (!pending) {
+                WC_SETUP_CALLBACKS.isDone = true;
+                WC_SETUP_CALLBACKS.exec();
+            }
+        };
+        var supportsGenerators = function() {
+            // Code taken from Modernizr:
+            // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/es6/generators.js
+            try {
+                new Function('function* test() {}')();
+            } catch (e) {
+                return false;
+            }
+            return true;
         };
 
+
         if (!("Reflect" in WINDOW) && !WINDOW.SKIP_ES_POLYFILL) {
+            pending++;
             loadScript(
                 WINDOW.ES_POLYFILL || ES6_POLYFILL,
                 function () {
@@ -104,7 +122,16 @@
                     );
                 }
             );
+
+            if (GE_POLYFILL && !supportsGenerators() && !WINDOW.regeneratorRuntime) {
+                pending++;
+                loadScript(
+                    window.GE_POLYFILL || GE_POLYFILL,
+                    execWcSetupCallbacks
+                )
+            }
         } else {
+            pending++;
             loadScript(
                 WEB_COMPONENTS_POLYFILL,
                 execWcSetupCallbacks
@@ -119,6 +146,7 @@
     window,
     document,
     /* ES6 POLYFILL */ ("/" + "/cdnjs.cloudflare.com/ajax/libs/core-js/2.5.3/core.min.js"),
+    /* GENERATOR POLYFILL */ ("/" + "/unpkg.com/regenerator-runtime@0.12.1/runtime.js"),
     /* WC POLYFILL */ ("/" + "/cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.0.2/webcomponents-bundle.js"),
     function () {
 

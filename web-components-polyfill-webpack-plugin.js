@@ -16,9 +16,21 @@ module.exports = class WebComponentsPolyfillWebpackPlugin {
      * @param {Boolean} [stringify=true]
      */
     constructor(esPolyfill, wcPolyfill, stringify = true) {
-        this.esPolyfill = esPolyfill;
-        this.wcPolyfill = wcPolyfill;
-        this.stringify = stringify;
+        const isOptionsAnObject = "object" === typeof esPolyfill;
+
+        if (esPolyfill && !isOptionsAnObject) {
+            console.warn("[WARN] web-components-polyfill-webpack-plugin: input options should be set using an object");
+        }
+
+        this._options = Object.assign(
+            {
+                esPolyfill: "",
+                generatorPolyfill: "",
+                wcPolyfill: "",
+                stringify: true
+            },
+            isOptionsAnObject ? esPolyfill : { esPolyfill, wcPolyfill, stringify }
+        );
     }
 
     apply(compiler) {
@@ -49,7 +61,7 @@ function getWrapperTemplate() {
 
 function setCustomPolyfills(pluginInstance) {
     let response = HEADER;
-    const { stringify, esPolyfill, wcPolyfill } = pluginInstance;
+    const { stringify, esPolyfill, wcPolyfill, generatorPolyfill } = pluginInstance._options;
 
     if (esPolyfill) {
         response = response.replace(
@@ -57,7 +69,13 @@ function setCustomPolyfills(pluginInstance) {
             `${ stringify ? JSON.stringify(esPolyfill) : esPolyfill },`);
     }
 
-    if (pluginInstance.wcPolyfill) {
+    if (generatorPolyfill) {
+        response = response.replace(
+            /\/\* GENERATOR POLYFILL \*\/.*[\r\n]/,
+            `${ stringify ? JSON.stringify(generatorPolyfill) : generatorPolyfill },`);
+    }
+
+    if (wcPolyfill) {
         response = response.replace(
             /\/\* WC POLYFILL \*\/.*[\r\n]/,
             `${ stringify ? JSON.stringify(wcPolyfill) : wcPolyfill },`
